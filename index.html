@@ -1,1 +1,77 @@
-ถถถถถถถถถถถถ
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <title>คำนวณต้นทุนและค่าดำเนินงาน</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      background-color: #f5f5f5;
+      padding: 40px;
+      text-align: center;
+    }
+    h1 {
+      color: #003F7D;
+    }
+    input {
+      padding: 10px;
+      font-size: 16px;
+      width: 200px;
+      margin: 8px 0;
+    }
+    button {
+      padding: 10px 20px;
+      font-size: 16px;
+      background-color: #FF8E00;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+    .result {
+      margin-top: 20px;
+      font-size: 18px;
+      color: #333;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>คำนวณต้นทุนและค่าดำเนินงาน</h1>
+
+  <div>
+    <label>ราคาต้นทุน:</label><br>
+    <input type="number" id="cost" placeholder="ใส่ราคาต้นทุน"><br>
+
+    <label>ราคาขาย:</label><br>
+    <input type="number" id="price" placeholder="ใส่ราคาขาย"><br>
+
+    <button onclick="calculate()">OK</button>
+  </div>
+
+  <div class="result" id="output">
+    <!-- ผลลัพธ์จะแสดงตรงนี้ -->
+  </div>
+
+  <script>
+    function calculate() {
+      const cost = parseFloat(document.getElementById('cost').value);
+      const price = parseFloat(document.getElementById('price').value);
+      const output = document.getElementById('output');
+
+      if (isNaN(cost) || isNaN(price)) {
+        output.innerHTML = "<p>กรุณากรอกตัวเลขให้ครบ</p>";
+        return;
+      }
+
+      const operationFee = cost * 0.10;
+
+      output.innerHTML = `
+        <p>ต้นทุน: ${cost.toLocaleString()} บาท</p>
+        <p>ค่าดำเนินงาน (10% ของต้นทุน): ${operationFee.toLocaleString()} บาท</p>
+      `;
+    }
+  </script>
+
+</body>
+</html>
