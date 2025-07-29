@@ -2,20 +2,25 @@
 <html lang="th">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Ideatech_Project_Calculator_v1.1</title>
   <style>
     body {
       font-family: sans-serif;
       background-color: #f8f8f8;
-      padding: 40px;
-      max-width: 700px;
-      margin: auto;
+      padding: 20px;
+      margin: 0;
       color: #333;
     }
 
     h1, h2 {
-      margin: 0;
       color: #003F7D;
+      margin: 0;
+    }
+
+    .container {
+      max-width: 700px;
+      margin: auto;
     }
 
     .section {
@@ -24,27 +29,26 @@
 
     label {
       display: block;
-      margin: 10px 0 5px;
+      margin: 12px 0 5px;
       font-weight: bold;
     }
 
     input[type="number"] {
       width: 100%;
-      padding: 10px;
+      padding: 12px;
       font-size: 16px;
       box-sizing: border-box;
-      margin-bottom: 10px;
+      margin-bottom: 15px;
     }
 
     button {
       padding: 12px 30px;
       font-size: 16px;
       background-color: #FF8E00;
-      color: #fff;
+      color: white;
       border: none;
       border-radius: 6px;
       cursor: pointer;
-      margin-top: 10px;
     }
 
     .result {
@@ -56,27 +60,38 @@
       font-size: 18px;
       line-height: 1.6;
     }
+
+    @media (max-width: 600px) {
+      h1, h2 {
+        font-size: 18px;
+      }
+      input, button {
+        font-size: 16px;
+      }
+      .result {
+        font-size: 16px;
+      }
+    }
   </style>
 </head>
 <body>
 
-  <h1>Ideatech_Project_Calculator_v1.1 for Partner</h1>
-  <h2>เว็บคำนวณต้นทุนและราคาขาย / One-Time no Support</h2>
+  <div class="container">
+    <h1>Ideatech_Project_Calculator_v1.1 for Partner</h1>
+    <h2>เว็บคำนวณต้นทุนและราคาขาย / One-Time no Support</h2>
 
-  <div class="section">
-    <label for="cost">ต้นทุนสินค้า (บาท) :</label>
-    <input type="number" id="cost" placeholder="เช่น 100000">
+    <div class="section">
+      <label for="cost">ต้นทุนสินค้า + ค่าของขวัญ (บาท) :</label>
+      <input type="number" id="cost" placeholder="เช่น 110000">
 
-    <label for="gift">ค่าเลี้ยงรับรองลูกค้า/ของขวัญ (บาท) :</label>
-    <input type="number" id="gift" placeholder="เช่น 10000">
+      <label for="price">ราคาขาย (บาท) :</label>
+      <input type="number" id="price" placeholder="เช่น 140000">
 
-    <label for="price">ราคาขาย (บาท) :</label>
-    <input type="number" id="price" placeholder="เช่น 140000">
+      <button onclick="calculate()">OK</button>
+    </div>
 
-    <button onclick="calculate()">OK</button>
+    <div id="result" class="result"></div>
   </div>
-
-  <div id="result" class="result"></div>
 
   <script>
     function formatNumber(num) {
@@ -85,27 +100,27 @@
 
     function calculate() {
       const cost = parseFloat(document.getElementById('cost').value);
-      const gift = parseFloat(document.getElementById('gift').value);
       const price = parseFloat(document.getElementById('price').value);
       const resultDiv = document.getElementById('result');
 
-      if (isNaN(cost) || isNaN(gift) || isNaN(price)) {
+      if (isNaN(cost) || isNaN(price)) {
         resultDiv.innerHTML = "<p>กรุณากรอกข้อมูลให้ครบถ้วน</p>";
         return;
       }
 
       const operationFee = price * 0.10;
-      const totalCost = cost + gift + operationFee;
-      const profit = price - totalCost;
-      const profitPercent = (profit / price) * 100;
+      const totalCost = cost + operationFee;
+      const grossProfit = price - totalCost;
+      const grossProfitPercent = (grossProfit / price) * 100;
+      const netProfit = grossProfit / 2;
 
       resultDiv.innerHTML = `
-        <p>ต้นทุนสินค้า = ${formatNumber(cost)} บาท</p>
-        <p>ค่าเลี้ยงรับรองลูกค้า/ของขวัญ = ${formatNumber(gift)} บาท</p>
+        <p>ต้นทุนสินค้า + ค่าของขวัญ = ${formatNumber(cost)} บาท</p>
         <p>ค่าดำเนินงาน (10% ของราคาขาย) = ${formatNumber(operationFee)} บาท</p>
         <p>รวมต้นทุนทั้งหมด = ${formatNumber(totalCost)} บาท</p>
         <p>ราคาขาย = ${formatNumber(price)} บาท</p>
-        <p><strong>Net Profit</strong> = ${profitPercent.toFixed(2)}% (${formatNumber(profit)} บาท)</p>
+        <p><strong>Net Profit</strong> = ${grossProfitPercent.toFixed(2)}% (${formatNumber(grossProfit)} บาท)</p>
+        <p><strong>แบ่งกำไรสุทธิ</strong> = ${formatNumber(netProfit)} บาท</p>
       `;
     }
   </script>
