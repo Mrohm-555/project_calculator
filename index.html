@@ -21,6 +21,17 @@
     .container {
       max-width: 700px;
       margin: auto;
+      /* ทำให้ position relative เพื่อช่วยจัดภาพ */
+      position: relative;
+    }
+
+    /* โลโก้ อยู่ใน container ชิดซ้าย สูงสุด 500px กว้าง auto */
+    .logo {
+      max-width: 500px;
+      width: 100%;
+      height: auto;
+      display: block;
+      margin-bottom: 20px;
     }
 
     .section {
@@ -71,20 +82,6 @@
       line-height: 1.6;
     }
 
-    .image-container {
-      overflow: hidden;
-      display: flex;
-      justify-content: flex-start;
-      padding: 0 20px;
-    }
-
-    .image-container img {
-      width: 100%;
-      max-width: 700px;
-      height: auto;
-      display: block;
-    }
-
     @media (max-width: 600px) {
       h1, h2 {
         font-size: 18px;
@@ -106,11 +103,13 @@
 </head>
 <body>
 
-  <div class="image-container">
-    <img src="https://assets.zyrosite.com/cdn-cgi/image/format=auto,w=700,fit=crop,q=95/mnl9z3KrrQsMJ4GQ/fulllogo_transparent_nobuffer-Yleyzyjb6OcolqW3.png" alt="Logo" />
-  </div>
-
   <div class="container">
+    <img
+      src="https://assets.zyrosite.com/cdn-cgi/image/format=auto,w=700,fit=crop,q=95/mnl9z3KrrQsMJ4GQ/fulllogo_transparent_nobuffer-Yleyzyjb6OcolqW3.png"
+      alt="Logo"
+      class="logo"
+    />
+
     <h1>Ideatech Project Calculator v1.1 for Partner</h1>
     <h2>เว็บคำนวณต้นทุนและราคาขาย / One-Time no Support</h2>
 
@@ -118,16 +117,20 @@
       <div class="row">
         <div class="column">
           <label for="cost">ต้นทุนสินค้า (บาท) :</label>
-          <input type="number" id="cost" placeholder="กรอกต้นทุนสินค้า">
+          <input type="number" id="cost" placeholder="กรอกต้นทุนสินค้า" />
         </div>
         <div class="column">
           <label for="gift">ค่าของขวัญ (บาท) :</label>
-          <input type="number" id="gift" placeholder="กรอกค่าของขวัญ">
+          <input type="number" id="gift" placeholder="กรอกค่าของขวัญ (ถ้ามี)" />
         </div>
       </div>
 
       <label for="price">ราคาขาย (บาท) :</label>
-      <input type="number" id="price" placeholder="กรอกราคาขาย แนะนำเป็น ต้นทุนสินค้าx1.3">
+      <input
+        type="number"
+        id="price"
+        placeholder="กรอกราคาขาย แนะนำเป็น ต้นทุนสินค้า x 1.3"
+      />
 
       <button onclick="calculate()">OK</button>
     </div>
@@ -137,17 +140,30 @@
 
   <script>
     function formatNumber(num) {
-      return num.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2});
+      return num.toLocaleString(undefined, {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2,
+      });
     }
 
     function calculate() {
-      const cost = parseFloat(document.getElementById('cost').value);
-      const gift = parseFloat(document.getElementById('gift').value);
-      const price = parseFloat(document.getElementById('price').value);
-      const resultDiv = document.getElementById('result');
+      const costInput = document.getElementById("cost").value.trim();
+      const giftInput = document.getElementById("gift").value.trim();
+      const priceInput = document.getElementById("price").value.trim();
+      const resultDiv = document.getElementById("result");
 
-      if (isNaN(cost) || isNaN(gift) || isNaN(price)) {
-        resultDiv.innerHTML = "<p>กรุณากรอกข้อมูลให้ครบถ้วน</p>";
+      // เช็คต้นทุนและราคาขาย ต้องกรอก
+      if (costInput === "" || priceInput === "") {
+        resultDiv.innerHTML = "<p>กรุณากรอก ต้นทุนสินค้า และ ราคาขาย ให้ครบถ้วน</p>";
+        return;
+      }
+
+      const cost = parseFloat(costInput);
+      const gift = giftInput === "" ? 0 : parseFloat(giftInput); // gift เป็น 0 ถ้าว่าง
+      const price = parseFloat(priceInput);
+
+      if (isNaN(cost) || isNaN(price) || isNaN(gift)) {
+        resultDiv.innerHTML = "<p>กรุณากรอกข้อมูลเป็นตัวเลขที่ถูกต้อง</p>";
         return;
       }
 
@@ -167,6 +183,5 @@
       `;
     }
   </script>
-
 </body>
 </html>
