@@ -61,15 +61,19 @@
       line-height: 1.6;
     }
 
-     .image-container {
-      overflow: hidden;
-    }
+.image-container {
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+}
 
-    .image-container img {
-      width: 100%;
-      height: auto;
-      display: block;
-    }
+.image-container img {
+  max-width: 500px;
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
     
     @media (max-width: 600px) {
       h1, h2 {
