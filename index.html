@@ -2,48 +2,59 @@
 <html lang="th">
 <head>
   <meta charset="UTF-8">
-  <title>Ideatech Project Calculator v1.1</title>
+  <title>Ideatech_Project_Calculator_v1.1</title>
   <style>
     body {
       font-family: sans-serif;
+      background-color: #f8f8f8;
       padding: 40px;
-      background-color: #f9f9f9;
-      color: #333;
-      max-width: 600px;
+      max-width: 700px;
       margin: auto;
+      color: #333;
     }
 
     h1, h2 {
-      color: #003F7D;
       margin: 0;
-      padding: 0;
+      color: #003F7D;
+    }
+
+    .section {
+      margin-top: 30px;
+    }
+
+    label {
+      display: block;
+      margin: 10px 0 5px;
+      font-weight: bold;
     }
 
     input[type="number"] {
-      padding: 10px;
-      font-size: 18px;
       width: 100%;
-      margin: 10px 0 20px 0;
+      padding: 10px;
+      font-size: 16px;
       box-sizing: border-box;
+      margin-bottom: 10px;
     }
 
     button {
-      padding: 10px 20px;
-      font-size: 18px;
+      padding: 12px 30px;
+      font-size: 16px;
       background-color: #FF8E00;
-      color: white;
+      color: #fff;
       border: none;
-      border-radius: 5px;
+      border-radius: 6px;
       cursor: pointer;
+      margin-top: 10px;
     }
 
     .result {
-      margin-top: 30px;
-      font-size: 18px;
-      background-color: #fff;
+      background-color: #ffffff;
       padding: 20px;
+      margin-top: 30px;
       border-radius: 8px;
       box-shadow: 0 0 5px rgba(0,0,0,0.1);
+      font-size: 18px;
+      line-height: 1.6;
     }
   </style>
 </head>
@@ -52,35 +63,49 @@
   <h1>Ideatech_Project_Calculator_v1.1 for Partner</h1>
   <h2>เว็บคำนวณต้นทุนและราคาขาย / One-Time no Support</h2>
 
-  <label for="cost">ราคาต้นทุนสินค้า (บาท):</label>
-  <input type="number" id="cost" placeholder="เช่น 100000">
+  <div class="section">
+    <label for="cost">ต้นทุนสินค้า (บาท) :</label>
+    <input type="number" id="cost" placeholder="เช่น 100000">
 
-  <button onclick="calculate()">OK</button>
+    <label for="gift">ค่าเลี้ยงรับรองลูกค้า/ของขวัญ (บาท) :</label>
+    <input type="number" id="gift" placeholder="เช่น 10000">
 
-  <div class="result" id="output"></div>
+    <label for="price">ราคาขาย (บาท) :</label>
+    <input type="number" id="price" placeholder="เช่น 140000">
+
+    <button onclick="calculate()">OK</button>
+  </div>
+
+  <div id="result" class="result"></div>
 
   <script>
+    function formatNumber(num) {
+      return num.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2});
+    }
+
     function calculate() {
       const cost = parseFloat(document.getElementById('cost').value);
-      const output = document.getElementById('output');
+      const gift = parseFloat(document.getElementById('gift').value);
+      const price = parseFloat(document.getElementById('price').value);
+      const resultDiv = document.getElementById('result');
 
-      if (isNaN(cost) || cost <= 0) {
-        output.innerHTML = "<p>กรุณากรอกราคาต้นทุนที่ถูกต้อง</p>";
+      if (isNaN(cost) || isNaN(gift) || isNaN(price)) {
+        resultDiv.innerHTML = "<p>กรุณากรอกข้อมูลให้ครบถ้วน</p>";
         return;
       }
 
-      const operationFee = cost * 0.10;
-      const totalCost = cost + operationFee;
-      const recommendedPrice = totalCost * 1.181818; // เพื่อให้กำไร 15% จากราคาขาย
-      const profit = recommendedPrice - totalCost;
-      const margin = (profit / recommendedPrice) * 100;
+      const operationFee = price * 0.10;
+      const totalCost = cost + gift + operationFee;
+      const profit = price - totalCost;
+      const profitPercent = (profit / price) * 100;
 
-      output.innerHTML = `
-        <p>ต้นทุนสินค้า = ${cost.toLocaleString()} บาท</p>
-        <p>ค่าดำเนินงาน (10% ของต้นทุนสินค้า) = ${operationFee.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})} บาท</p>
-        <p>ต้นทุนทั้งหมด = ${totalCost.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})} บาท</p>
-        <p>ราคาขายที่แนะนำ = ${recommendedPrice.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})} บาท / คิดจากต้นทุน คูณ 1.3</p>
-        <p><strong>Net Profit</strong> = ${recommendedPrice.toFixed(0)} - ${totalCost.toFixed(0)} = ${profit.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})} บาท (Margin ${margin.toFixed(0)}%)</p>
+      resultDiv.innerHTML = `
+        <p>ต้นทุนสินค้า = ${formatNumber(cost)} บาท</p>
+        <p>ค่าเลี้ยงรับรองลูกค้า/ของขวัญ = ${formatNumber(gift)} บาท</p>
+        <p>ค่าดำเนินงาน (10% ของราคาขาย) = ${formatNumber(operationFee)} บาท</p>
+        <p>รวมต้นทุนทั้งหมด = ${formatNumber(totalCost)} บาท</p>
+        <p>ราคาขาย = ${formatNumber(price)} บาท</p>
+        <p><strong>Net Profit</strong> = ${profitPercent.toFixed(2)}% (${formatNumber(profit)} บาท)</p>
       `;
     }
   </script>
