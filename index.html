@@ -116,11 +116,11 @@
     <div class="section">
       <div class="row">
         <div class="column">
-          <label for="cost">ต้นทุนสินค้า (บาท) :</label>
+          <label for="cost">ต้นทุนสินค้าและบริการ (บาท) :</label>
           <input type="number" id="cost" placeholder="กรอกต้นทุนสินค้า" />
         </div>
         <div class="column">
-          <label for="gift">ค่าของขวัญ (บาท) :</label>
+          <label for="gift">ค่าของขวัญ / อื่น ๆ (บาท) :</label>
           <input type="number" id="gift" placeholder="กรอกค่าของขวัญ (ถ้ามี)" />
         </div>
       </div>
@@ -178,8 +178,8 @@
         ค่าดำเนินงาน (10% ของต้นทุนสินค้าทั้งหมด) = ${formatNumber(operationFee)} บาท<br>
         รวมต้นทุนทั้งหมด = ${formatNumber(totalCost)} บาท<br>
         ราคาขาย = ${formatNumber(price)} บาท<br>
-        <p><strong>Net Profit = ${grossProfitPercent.toFixed(2)}%</strong> (${formatNumber(grossProfit)} บาท)</p>
-        <p><strong>แบ่งกำไรสุทธิ</strong> = ${formatNumber(netProfit)} บาท</p>
+        <strong>Net Profit = ${grossProfitPercent.toFixed(2)}%</strong> (${formatNumber(grossProfit)} บาท)<br>
+        <strong>แบ่งกำไรสุทธิ</strong> = ${formatNumber(netProfit)} บาท<br>
       `;
     }
   </script>
