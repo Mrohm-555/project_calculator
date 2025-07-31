@@ -168,7 +168,7 @@
       }
 
       const combinedCost = cost + gift;
-      const operationFee = price * 0.10;
+      const operationFee = combinedCost * 0.10;
       const totalCost = combinedCost + operationFee;
       const grossProfit = price - totalCost;
       const grossProfitPercent = (grossProfit / price) * 100;
