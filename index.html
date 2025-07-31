@@ -175,9 +175,9 @@
       const netProfit = grossProfit / 2;
 
       resultDiv.innerHTML = `
-        <p>ค่าดำเนินงาน (10% ของราคาขาย) = ${formatNumber(operationFee)} บาท</p>
-        <p>รวมต้นทุนทั้งหมด = ${formatNumber(totalCost)} บาท</p>
-        <p>ราคาขาย = ${formatNumber(price)} บาท</p>
+        ค่าดำเนินงาน (10% ของต้นทุนสินค้าทั้งหมด) = ${formatNumber(operationFee)} บาท<br>
+        รวมต้นทุนทั้งหมด = ${formatNumber(totalCost)} บาท<br>
+        ราคาขาย = ${formatNumber(price)} บาท<br>
         <p><strong>Net Profit = ${grossProfitPercent.toFixed(2)}%</strong> (${formatNumber(grossProfit)} บาท)</p>
         <p><strong>แบ่งกำไรสุทธิ</strong> = ${formatNumber(netProfit)} บาท</p>
       `;
